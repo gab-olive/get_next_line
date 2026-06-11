@@ -6,7 +6,7 @@
 /*   By: gabrielo <gabrielo@42spstudent.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/11 11:20:15 by gabrielo          #+#    #+#             */
-/*   Updated: 2026/06/11 15:53:03 by gabrielo         ###   ########.fr       */
+/*   Updated: 2026/06/11 17:45:16 by gabrielo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,21 +96,11 @@ char	*get_next_line(int fd)
 	int			i;
  
 	b = "";
-	bytes = 0;
-	while ((n = read(fd, buffer, sizeof(buffer))) > 0)
+	bytes = 1;
+	while ((!ft_strchr(buffer, '\n') && bytes > 0))
 	{
-		b = ft_strjoin(b, buffer);
-		i = 0;
-		while (b[i])
-		{
-			if (b[i] == '\n')
-			{
-				ret = malloc(i);	
-				return (ft_memcpy(ret, b, i));
-			}
-			i++;
-		}
-		bytes += n;
+		bytes = read(fd, buffer[BUFFER_SIZE], sizeof(buffer));
+		keep = ft_strjoin(b, buffer);
 	}
 }
 
