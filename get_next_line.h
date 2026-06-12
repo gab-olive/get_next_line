@@ -6,13 +6,26 @@
 /*   By: gabrielo <gabrielo@42spstudent.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/11 11:23:58 by gabrielo          #+#    #+#             */
-/*   Updated: 2026/06/11 11:24:48 by gabrielo         ###   ########.fr       */
+/*   Updated: 2026/06/12 12:09:24 by gabrielo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
+#ifndef BUFFER_SIZE
+# define BUFFER_SIZE 42
+#endif
 
+#include <stdio.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <stddef.h>
+#include <stdlib.h>
 char	*get_next_line(int fd);
+size_t	ft_strlen(const char *str);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
+char	*ft_strchr(const char *s, int c);
+char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strdup(const char *s);
 
 #endif

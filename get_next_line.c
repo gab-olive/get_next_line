@@ -6,116 +6,62 @@
 /*   By: gabrielo <gabrielo@42spstudent.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/11 11:20:15 by gabrielo          #+#    #+#             */
-/*   Updated: 2026/06/11 17:45:16 by gabrielo         ###   ########.fr       */
+/*   Updated: 2026/06/12 12:40:02 by gabrielo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <fcntl.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
 
-char	*ft_strchr(const char *s, int c)
-{
-	char	*ptr;
-	char	ch;
-
-	ptr = (char *)s;
-	ch = (char)(unsigned char)c;
-	if (ch == '\0')
-	{
-		while (*ptr)
-			ptr++;
-		return (ptr);
-	}
-	while (*ptr)
-	{
-		if (*ptr == ch)
-			return (ptr);
-		ptr++;
-	}
-	return (0);
-}
-void	*ft_memcpy(void *dest, const void *src, size_t n)
-{
-	unsigned char	*d;
-	unsigned char	*s;
-	size_t			i;
-
-	d = (unsigned char *)dest;
-	s = (unsigned char *)src;
-	if (d == s)
-		return (dest);
-	i = 0;
-	while (i < n)
-	{
-		d[i] = s[i];
-		i++;
-	}
-	return (dest);
-}
-size_t	ft_strlen(const char *str)
-{
-	char	*ptr;
-
-	ptr = (char *)str;
-	while (*ptr++)
-		;
-	return (ptr - str - 1);
-}
-char	*ft_strjoin(char const *s1, char const *s2)
-{
-	unsigned int	i;
-	unsigned int	j;
-	char			*ptr;
-
-	i = 0;
-	j = 0;
-	ptr = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
-	if (!ptr)
-		return (NULL);
-	while (s1[i])
-		ptr[j++] = s1[i++];
-	i = 0;
-	while (s2[i])
-		ptr[j++] = s2[i++];
-	ptr[j] = '\0';
-	return (ptr);
-}
-int		BUFFER_SIZE = 42;
-// ssize_t read(int fd, void *buf, size_t bytestoread);
 char	*get_next_line(int fd)
 {
 	int			bytes;
-	char		buffer[BUFFER_SIZE];
-	static char	*keep = NULL;
+	char		buffer[BUFFER_SIZE + 1];
+	static char	*keep[4096];
 	int			i;
- 	char *tmp;
-	
-	bytes = 1;
-	while ((!ft_strchr(keep, '\n') && bytes > 0))
-	{
-		bytes = read(fd, buffer[BUFFER_SIZE], sizeof(buffer));
+	char		*tmp;
+	char		*line;
+	int			file;
 
-		buffer[BUFFER_SIZE] = '\0';
-		tmp = keep;
-		keep = ft_strjoin(tmp, buffer);
-		free(tmp_;
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
+	file = fd;
+	if (!keep[file])
+		keep[file] = ft_strdup("");
+	bytes = 1;
+	while ((!ft_strchr(keep[file], '\n') && bytes > 0))
+	{
+		bytes = read(fd, buffer, BUFFER_SIZE);
+		if (bytes < 0)
+		{
+			free(keep[file]);
+			keep[file] = NULL;
+			return (NULL);
+		}
+		buffer[bytes] = '\0';
+		tmp = keep[file];
+		keep[file] = ft_strjoin(tmp, buffer);
+		free(tmp);
 	}
 	i = 0;
-	while (keep[i] && keep[i]  != '\n')
-			i++;
-	line = ft_substr(bla);
-}
-
-int	main(void)
-{
-	char	*str;
-	int		fd;
-
-	fd = open("teste.txt", O_RDONLY);
-	str = get_next_line(fd);
-	printf("%s\n", str);
-	return (0);
+	while (keep[file][i] && keep[file][i] != '\n')
+		i++;
+	if (!keep[file] || !*keep[file])
+	{
+		free(keep[file]);
+		keep[file] = NULL;
+		return (NULL);
+	}
+	tmp = keep[file];
+	if (keep[file][i] == '\0')
+	{
+		line = ft_substr(keep[file], 0, i);
+		keep[file] = NULL;
+	}
+	else
+	{
+		line = ft_substr(keep[file], 0, i + 1);
+		keep[file] = ft_strdup(tmp + i + 1);
+	}
+	free(tmp);
+	return (line);
 }
