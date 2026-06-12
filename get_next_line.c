@@ -97,7 +97,7 @@ char	*get_next_line(int fd)
  
 	b = "";
 	bytes = 1;
-	while ((!ft_strchr(buffer, '\n') && bytes > 0))
+	while ((!ft_strchr(keep, '\n') && bytes > 0))
 	{
 		bytes = read(fd, buffer[BUFFER_SIZE], sizeof(buffer));
 		keep = ft_strjoin(b, buffer);
