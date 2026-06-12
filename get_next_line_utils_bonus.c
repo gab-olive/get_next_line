@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gabrielo <gabrielo@42spstudent.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/12 13:07:57 by gabrielo          #+#    #+#             */
-/*   Updated: 2026/06/12 13:08:24 by gabrielo         ###   ########.fr       */
+/*   Created: 2026/06/12 13:05:59 by gabrielo          #+#    #+#             */
+/*   Updated: 2026/06/12 13:06:15 by gabrielo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,12 @@ char	*ft_strchr(const char *s, int c)
 
 	ptr = (char *)s;
 	ch = (char)(unsigned char)c;
+	if (ch == '\0')
+	{
+		while (*ptr)
+			ptr++;
+		return (ptr);
+	}
 	while (*ptr)
 	{
 		if (*ptr == ch)

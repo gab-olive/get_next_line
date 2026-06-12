@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gabrielo <gabrielo@42spstudent.org.br>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/11 11:20:15 by gabrielo          #+#    #+#             */
-/*   Updated: 2026/06/12 14:57:12 by gabrielo         ###   ########.fr       */
+/*   Updated: 2026/06/12 14:58:42 by gabrielo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*curr_line(char *keep, int index)
 {
@@ -75,25 +75,25 @@ int	get_newline(char *keep)
 
 char	*get_next_line(int fd)
 {
-	static char	*keep;
+	static char	*keep[4096];
 	int			newline_i;
 	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	if (!keep)
-		keep = ft_strdup("");
-	keep = read_until_newline(keep, fd);
-	if (!keep)
+	if (!keep[fd])
+		keep[fd] = ft_strdup("");
+	keep[fd] = read_until_newline(keep[fd], fd);
+	if (!keep[fd])
 		return (NULL);
-	if (*keep == '\0')
+	if (*keep[fd] == '\0')
 	{
-		free(keep);
-		keep = NULL;
-		return (keep);
+		free(keep[fd]);
+		keep[fd] = NULL;
+		return (keep[fd]);
 	}
-	newline_i = get_newline(keep);
-	line = curr_line(keep, newline_i);
-	keep = update_keep(keep, newline_i);
+	newline_i = get_newline(keep[fd]);
+	line = curr_line(keep[fd], newline_i);
+	keep[fd] = update_keep(keep[fd], newline_i);
 	return (line);
 }
