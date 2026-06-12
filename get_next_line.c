@@ -88,20 +88,25 @@ int		BUFFER_SIZE = 42;
 char	*get_next_line(int fd)
 {
 	int			bytes;
-	int			n;
-	char		*b;
 	char		buffer[BUFFER_SIZE];
-	static char	*keep;
-	char		*ret;
+	static char	*keep = NULL;
 	int			i;
- 
-	b = "";
+ 	char *tmp;
+	
 	bytes = 1;
 	while ((!ft_strchr(keep, '\n') && bytes > 0))
 	{
 		bytes = read(fd, buffer[BUFFER_SIZE], sizeof(buffer));
-		keep = ft_strjoin(b, buffer);
+
+		buffer[BUFFER_SIZE] = '\0';
+		tmp = keep;
+		keep = ft_strjoin(tmp, buffer);
+		free(tmp_;
 	}
+	i = 0;
+	while (keep[i] && keep[i]  != '\n')
+			i++;
+	line = ft_substr(bla);
 }
 
 int	main(void)
